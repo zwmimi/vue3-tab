@@ -1,22 +1,31 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import CardList from './components/CardList.vue';
-import SecondCardList from './components/SecondCardList.vue';
+import { ref, computed } from "vue";
+import CardList from "./components/CardList.vue";
+import SecondCardList from "./components/SecondCardList.vue";
 
-// const isFirstTab = ref(true)
-// const updateTab = (isFirst: boolean) => {
-//   isFirstTab.value = isFirst
-// }
+const isFirstTab = ref(true);
+const updateTab = (isFirst: boolean) => {
+  isFirstTab.value = isFirst;
+};
 
+const currentComponent = computed(() => {
+  switch (isFirstTab.value) {
+    case true:
+      return CardList;
+    case false:
+      return SecondCardList;
+  }
+});
 </script>
 
 <template>
-  <!-- <div class="tab-changer">
+  <div class="tab-changer">
     <button @click="updateTab(true)">Tab 1</button>
     <button @click="updateTab(false)">Tab 2</button>
-  </div> -->
+  </div>
   <div class="tab-contents">
-    <CardList></CardList>
+    <!-- <CardList></CardList> -->
+    <component :is="currentComponent"></component>
     <!-- <CardList v-if="isFirstTab"></CardList>
     <SecondCardList v-if="!isFirstTab"></SecondCardList> -->
   </div>
@@ -33,6 +42,5 @@ import SecondCardList from './components/SecondCardList.vue';
 
 .tab-contents {
   margin-top: 20px;
-
 }
 </style>
